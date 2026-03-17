@@ -1,0 +1,12 @@
+1-If you want, I can also explain one very subtle reason why std::vector refuses to move objects unless the move constructor is noexcept
+2- Why must swap be noexcept in well-written C++ libraries?
+3- what is strong exception guarantee.
+4- I can also show you 3 interview tricks with std::move that confuse even experienced C++ developers
+5- is this steetmnt correct---std::move Transfer Ownership
+6- when someone say treat x as an rvalue whats the signifacne of it?
+7- is this correct--“Adding && makes something an rvalue.”
+8- Why T&& introduced and what problem T& cannot solve
+9- give me example of binidng to rvalue and lvaue
+10- why Normal references (T&) cannot attach to rvalues
+11- why Move constructors should almost always be noexcept.
+12- If we don’t write a move constructor, what does the compiler do?

@@ -11,6 +11,9 @@ public:
   CustString();
   CustString(const char *c);
   CustString(const CustString &other);
+  CustString &operator=(const CustString &other);
+  CustString(CustString &&other) noexcept;
+  CustString &operator=(CustString &&other);
   ~CustString();
 
   size_t stsize() const;
