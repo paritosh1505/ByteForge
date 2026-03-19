@@ -1,23 +1,27 @@
 #pragma once
 #include <cstddef>
 namespace ByteForge {
-class CustString {
+class CustomString {
 private:
   size_t size_;
   size_t capacity_;
   char *data_;
 
 public:
-  CustString();
-  CustString(const char *c);
-  CustString(const CustString &other);
-  CustString &operator=(const CustString &other);
-  CustString(CustString &&other) noexcept;
-  CustString &operator=(CustString &&other);
-  ~CustString();
+  CustomString();
+  CustomString(const char *c);
+  CustomString(const CustomString &other); // copy constructor
+  CustomString &
+  operator=(const CustomString &other);          // copy assignment operator
+  CustomString(CustomString &&other) noexcept;   // move constructor
+  CustomString &operator=(CustomString &&other); // move assignment operator
+  ~CustomString();
 
-  size_t stsize() const;
-  bool isEmpty() const;
+  size_t size() const;
+  bool empty() const;
   const char *c_str() const;
+
+  // modifier
+  CustomString &operator+=(const CustomString &other);
 };
 } // namespace ByteForge
