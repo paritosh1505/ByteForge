@@ -19,9 +19,22 @@ public:
 
   size_t size() const;
   bool empty() const;
+  size_t capacity() const;
   const char *c_str() const;
 
-  // modifier
+  // comparison operation
+  bool operator==(const CustomString &other) const;
+  bool operator!=(const CustomString &other) const;
+  bool operator<(const CustomString &other) const;
+  bool operator>(const CustomString &other) const;
+  bool operator<=(const CustomString &other) const;
+  bool operator>=(const CustomString &other) const;
+
+  // concatenation operation
   CustomString &operator+=(const CustomString &other);
+  CustomString operator+(const CustomString &other) const;
+  // indexing
+  char &operator[](size_t indexval);
+  CustomString substring(size_t start, size_t len) const;
 };
 } // namespace ByteForge
