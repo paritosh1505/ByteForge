@@ -5,18 +5,22 @@
 #include <stdexcept>
 
 namespace ByteForge {
-CustomString::CustomString() : size_(0), capacity_(0), data_(nullptr) {}
+CustomString::CustomString() : size_(0), capacity_(SSO_SIZE) {
+  sso_buff[0] = '\0';
+}
 CustomString::CustomString(const char *c)
-    : size_(c ? strlen(c) : 0), capacity_(size_ + 1),
-      data_(new char[capacity_]) {
-  if (c) {
-    std::memcpy(data_, c, capacity_);
-  } else
-    data_[0] = '\0';
+    : size_(c ? strlen(c) : 0), capacity_(size_ + 1) {
+  if (c && strlen(c) < 15) {
+    std::memcpy(sso_buff, c, capacity_);
+  } else if (c && strlen(c) >= 15) {
+    memcpy(heap_data_, c, capacity_);
+  } else {
+    sso_buff[0] = '\0';
+  }
 }
 CustomString::~CustomString() { delete[] data_; }
 size_t CustomString::size() const { return size_; }
-size_t CustomString::capacity() const { return size_ + 1; }
+size_t CustomString::capacity() const { return capacity_; }
 bool CustomString::empty() const { return size_ == 0; }
 const char *CustomString::c_str() const { return data_; }
 
@@ -98,7 +102,14 @@ bool CustomString::operator==(const CustomString &other) const {
 }
 char &CustomString::operator[](size_t index) {
 
-  if (index > size_) {
+  if (index >= size_) {
+    throw std::out_of_range("Index out of range");
+  }
+  return data_[index];
+}
+const char &CustomString::operator[](size_t index) const {
+
+  if (index >= size_) {
     throw std::out_of_range("Index out of range");
   }
   return data_[index];
@@ -175,9 +186,10 @@ CustomString CustomString::operator+(const CustomString &other) const {
 }
 CustomString CustomString::substring(size_t start, size_t len) const {
   char *tmp = new char[len + 1];
+  size_t last = (start + len);
   tmp[0] = '\0';
 
-  for (size_t i = start, j = 0; i <= len; i++, j++) {
+  for (size_t i = start, j = 0; i < last; i++, j++) {
     tmp[j] = data_[i];
   }
   tmp[len] = '\0';
@@ -185,4 +197,29 @@ CustomString CustomString::substring(size_t start, size_t len) const {
   delete[] tmp;
   return result;
 }
+void CustomString::reserve(size_t n) {
+  if (n > this->capacity_) {
+    char *newdata_ = new char[n];
+    // newdata_[0] = '\0';
+    std::memcpy(newdata_, data_, size_ + 1);
+    delete[] data_;
+    data_ = newdata_;
+    capacity_ = n;
+    std::cout << this->capacity_;
+  }
+}
 } // namespace ByteForge
+/*
+void CustomString::reserve(size_t n) {
+  if (n > this->capacity_) {
+    this->capacity_ = n;
+    std::cout << this->capacity_ << "\n";
+    std::cout << this->size_ << "\n";
+
+    char *newdata_ = new char[capacity_];
+    CustomString result(newdata_);
+    result.data_ = data_;
+    delete[] data_;
+  }
+}
+*/

@@ -22,7 +22,12 @@ int main() {
   ByteForge::CustomString u = std::move(s);
   u += " world";
   ByteForge::CustomString k = test.substring(2, 3);
-  std::cout << k.c_str();
+  ByteForge::CustomString p("hel");
+  p.reserve(100);
+  std::cout << "capcaaity is" << p.capacity() << "\n";
+  // for (int i = 0; i < 1000000; i++) {
+  //  p += "a";
+  //}
   //  assert(d == "Sun");
   //  assert(u == "hello world");
   //  assert(u != "hello worlds");

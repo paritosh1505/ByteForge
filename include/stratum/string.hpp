@@ -1,11 +1,15 @@
 #pragma once
 #include <cstddef>
 namespace ByteForge {
+constexpr int SSO_SIZE = 16;
 class CustomString {
 private:
   size_t size_;
   size_t capacity_;
-  char *data_;
+  union {
+    char *heap_data_;
+    char sso_buff[SSO_SIZE + 1];
+  };
 
 public:
   CustomString();
@@ -35,6 +39,9 @@ public:
   CustomString operator+(const CustomString &other) const;
   // indexing
   char &operator[](size_t indexval);
+  const char &operator[](size_t indexval) const;
   CustomString substring(size_t start, size_t len) const;
+  // reserve
+  void reserve(size_t n);
 };
 } // namespace ByteForge
